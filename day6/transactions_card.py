@@ -37,3 +37,7 @@ df_fatura
 # %%
 df_fatura_mes = df_fatura.groupby(["client_id", "dt_quotation"])["quotation_value"].sum().reset_index()
 df_fatura_mes
+
+# %%
+df_fatura_mes = df_fatura_mes.pivot_table(columns="dt_quotation", index="client_id", values="quotation_value").fillna(0)
+df_fatura_mes
