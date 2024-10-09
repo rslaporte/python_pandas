@@ -21,7 +21,10 @@ df_fatura = (df.explode("quotation_value")
 df_fatura
 
 # %%
-df_fatura["months_add"] = df_fatura.groupby("transaction_id")["dt_transaction"].rank(method="first").astype(int)
+df_fatura["months_add"] = (df_fatura.groupby("transaction_id")["dt_transaction"]
+                           .rank(method="first")
+                           .astype(int)
+                        )
 df_fatura
 
 # %%
@@ -35,9 +38,13 @@ df_fatura["dt_quotation"] = (df_fatura.apply(add_months, axis=1)
 df_fatura
 
 # %%
-df_fatura_mes = df_fatura.groupby(["client_id", "dt_quotation"])["quotation_value"].sum().reset_index()
+df_fatura_mes = (df_fatura.groupby(["client_id", "dt_quotation"])["quotation_value"]
+                 .sum()
+                 .reset_index()
+                )
 df_fatura_mes
 
 # %%
-df_fatura_mes = df_fatura_mes.pivot_table(columns="dt_quotation", index="client_id", values="quotation_value").fillna(0)
+df_fatura_mes = (df_fatura_mes.pivot_table(columns="dt_quotation", index="client_id", values="quotation_value")
+                 .fillna(0))
 df_fatura_mes
